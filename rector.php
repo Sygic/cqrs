@@ -8,6 +8,7 @@ use Rector\Privatization;
 
 return RectorConfig::configure()
     ->withPhpSets(php82: true)
+    ->withAttributesSets(phpunit: true)
     ->withPaths([
         __DIR__ . '/src',
         __DIR__ . '/tests',

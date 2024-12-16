@@ -79,7 +79,7 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: ['8.1', '8.2']
+        php-versions: ['8.2']
       max-parallel: 1
 
     services:
