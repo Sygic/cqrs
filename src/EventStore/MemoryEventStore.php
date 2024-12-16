@@ -13,6 +13,7 @@ class MemoryEventStore implements EventStoreInterface
      */
     private array $events;
 
+    #[\Override]
     public function store(EventMessageInterface $event): void
     {
         $this->events[] = $event;

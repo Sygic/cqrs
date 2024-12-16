@@ -10,6 +10,7 @@ class DummyEventPublisher implements EventPublisherInterface
 {
     public int $published = 0;
 
+    #[\Override]
     public function publishEvents(): void
     {
         $this->published++;

@@ -19,6 +19,7 @@ class SynchronousEventBusTest extends TestCase
 
     private Stubs\DummyEventHandler $handler;
 
+    #[\Override]
     public function setUp(): void
     {
         $this->handler = new Stubs\DummyEventHandler();

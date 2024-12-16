@@ -17,6 +17,7 @@ class SequentialCommandBusTest extends TestCase
 
     private Stubs\DummyEventPublisher $eventPublisher;
 
+    #[\Override]
     public function setUp(): void
     {
         $this->handler = new Stubs\DummyCommandHandler();

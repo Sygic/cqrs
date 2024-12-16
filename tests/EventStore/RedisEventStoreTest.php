@@ -20,6 +20,7 @@ class RedisEventStoreTest extends TestCase
 
     private RedisEventStore $redisEventStore;
 
+    #[\Override]
     public function setUp(): void
     {
         if (!extension_loaded('redis')) {

@@ -61,7 +61,7 @@ class PsrContainerEventHandlerLocator implements EventHandlerLocatorInterface
     /**
      * @throws Exception\InvalidArgumentException
      */
-    public function remove(mixed $handler, string $eventType = null): void
+    public function remove(mixed $handler, ?string $eventType = null): void
     {
         // If event type is not specified, we need to iterate through each event type
         if (null === $eventType) {
@@ -105,6 +105,7 @@ class PsrContainerEventHandlerLocator implements EventHandlerLocatorInterface
      *
      * @return callable[]
      */
+    #[\Override]
     public function get(string $eventType): array
     {
         $handlers = array_merge_recursive(

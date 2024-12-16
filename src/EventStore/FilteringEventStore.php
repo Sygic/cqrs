@@ -14,6 +14,7 @@ class FilteringEventStore implements EventStoreInterface
     ) {
     }
 
+    #[\Override]
     public function store(EventMessageInterface $event): void
     {
         if ($this->filter->isValid($event)) {

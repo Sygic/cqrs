@@ -16,11 +16,13 @@ class SimpleIdentityMap implements IdentityMapInterface
     /**
      * @return AggregateRootInterface[]
      */
+    #[\Override]
     public function getAll(): array
     {
         return array_values($this->aggregateRoots);
     }
 
+    #[\Override]
     public function add(AggregateRootInterface $aggregateRoot): void
     {
         if (!in_array($aggregateRoot, $this->aggregateRoots, true)) {
@@ -28,6 +30,7 @@ class SimpleIdentityMap implements IdentityMapInterface
         }
     }
 
+    #[\Override]
     public function remove(AggregateRootInterface $aggregateRoot): void
     {
         $index = array_search($aggregateRoot, $this->aggregateRoots, true);
@@ -37,6 +40,7 @@ class SimpleIdentityMap implements IdentityMapInterface
         }
     }
 
+    #[\Override]
     public function clear(): void
     {
         $this->aggregateRoots = [];

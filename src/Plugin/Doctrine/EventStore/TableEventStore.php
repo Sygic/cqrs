@@ -18,13 +18,14 @@ class TableEventStore implements EventStoreInterface
     public function __construct(
         private readonly SerializerInterface $serializer,
         private readonly Connection $connection,
-        string $table = null
+        ?string $table = null
     ) {
         if (null !== $table) {
             $this->table = $table;
         }
     }
 
+    #[\Override]
     public function store(EventMessageInterface $event): void
     {
         $data = $this->toArray($event);

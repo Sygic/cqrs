@@ -17,6 +17,7 @@ class CreateEventStoreTableListener implements EventSubscriber
     ) {
     }
 
+    #[\Override]
     public function getSubscribedEvents(): array
     {
         return [

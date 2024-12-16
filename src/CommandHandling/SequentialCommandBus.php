@@ -43,6 +43,7 @@ class SequentialCommandBus implements CommandBusInterface
      *
      * @throws Exception
      */
+    #[\Override]
     public function dispatch(object $command): void
     {
         $this->commandStack[] = $command;

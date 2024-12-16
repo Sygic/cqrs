@@ -18,6 +18,7 @@ class RedisEventStore implements EventStoreInterface
     ) {
     }
 
+    #[\Override]
     public function store(EventMessageInterface $event): void
     {
         $record = RedisEventRecord::fromMessage($event, $this->serializer);

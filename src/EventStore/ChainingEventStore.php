@@ -16,6 +16,7 @@ class ChainingEventStore implements EventStoreInterface
     ) {
     }
 
+    #[\Override]
     public function store(EventMessageInterface $event): void
     {
         foreach ($this->eventStores as $eventStore) {

@@ -11,6 +11,7 @@ use Doctrine\ORM\Events;
 
 class RemoveDeletedAggregatesListener implements EventSubscriber
 {
+    #[\Override]
     public function getSubscribedEvents(): array
     {
         return [

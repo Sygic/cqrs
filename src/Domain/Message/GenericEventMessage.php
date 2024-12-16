@@ -22,13 +22,14 @@ class GenericEventMessage extends GenericMessage implements EventMessageInterfac
     public function __construct(
         object $payload,
         Metadata|array $metadata = [],
-        UuidInterface $id = null,
-        DateTimeImmutable $timestamp = null
+        ?UuidInterface $id = null,
+        ?DateTimeImmutable $timestamp = null
     ) {
         parent::__construct($payload, $metadata, $id);
         $this->timestamp = $timestamp ?? self::$clock?->now() ?? new DateTimeImmutable();
     }
 
+    #[\Override]
     public function jsonSerialize(): array
     {
         $data = parent::jsonSerialize();
@@ -37,6 +38,7 @@ class GenericEventMessage extends GenericMessage implements EventMessageInterfac
         return $data;
     }
 
+    #[\Override]
     public function getTimestamp(): DateTimeImmutable
     {
         return $this->timestamp;

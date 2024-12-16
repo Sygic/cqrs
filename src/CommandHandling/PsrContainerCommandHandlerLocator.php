@@ -19,6 +19,7 @@ class PsrContainerCommandHandlerLocator implements CommandHandlerLocatorInterfac
      * @return callable
      * @throws Exception\CommandHandlerNotFoundException
      */
+    #[\Override]
     public function get(string $commandType): callable
     {
         if (!array_key_exists($commandType, $this->handlers)) {

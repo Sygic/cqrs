@@ -55,6 +55,7 @@ class RedisEventRecord implements \Stringable
     ) {
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->data;

@@ -12,11 +12,13 @@ final class MemoryContainer implements ContainerInterface
     {
     }
 
+    #[\Override]
     public function get(string $id): mixed
     {
         return $this->services[$id] ?? null;
     }
 
+    #[\Override]
     public function has(string $id): bool
     {
         return isset($this->services[$id]);

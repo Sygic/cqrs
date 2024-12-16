@@ -17,7 +17,7 @@ class SimpleEventPublisher implements EventPublisherInterface
         private readonly EventBusInterface $eventBus,
         private readonly ?EventQueueInterface $queue = null,
         private readonly ?EventStoreInterface $eventStore = null,
-        Metadata|array $additionalMetadata = null
+        null|Metadata|array $additionalMetadata = null
     ) {
         if ($additionalMetadata !== null) {
             $this->additionalMetadata = Metadata::from($additionalMetadata);
@@ -39,6 +39,7 @@ class SimpleEventPublisher implements EventPublisherInterface
         return $this->additionalMetadata;
     }
 
+    #[\Override]
     public function publishEvents(): void
     {
         $this->dispatchEvents($this->dequeueEvents());

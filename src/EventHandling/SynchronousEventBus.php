@@ -18,6 +18,7 @@ class SynchronousEventBus implements EventBusInterface
     /**
      * @throws \Exception
      */
+    #[\Override]
     public function publish(EventMessageInterface $event): void
     {
         $eventType = $event->getPayloadType();

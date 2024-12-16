@@ -22,6 +22,7 @@ class TableEventStoreTest extends TestCase
 
     private TableEventStore $eventStore;
 
+    #[\Override]
     public function setUp(): void
     {
         if (!extension_loaded('pdo_sqlite')) {

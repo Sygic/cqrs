@@ -11,6 +11,7 @@ class DummyEventHandlerLocator implements EventHandlerLocatorInterface
 {
     public DummyEventHandler $handler;
 
+    #[\Override]
     public function get(string $eventType): array
     {
         return [

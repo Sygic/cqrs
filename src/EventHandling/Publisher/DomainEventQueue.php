@@ -16,6 +16,7 @@ class DomainEventQueue implements EventQueueInterface
     /**
      * @return DomainEventMessageInterface[]
      */
+    #[\Override]
     public function dequeueAllEvents(): array
     {
         $dequeueEvents = [];

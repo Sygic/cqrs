@@ -26,6 +26,7 @@ class SomeAggregateRoot extends AbstractAggregateRoot
      * @phpstan-return Id
      * @return mixed
      */
+    #[\Override]
     public function getId(): mixed
     {
         return $this->id;

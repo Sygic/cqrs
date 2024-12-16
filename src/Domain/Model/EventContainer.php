@@ -105,6 +105,7 @@ class EventContainer implements Countable
     /**
      * Returns the number of events currently inside this container.
      */
+    #[\Override]
     public function count(): int
     {
         return count($this->events);
