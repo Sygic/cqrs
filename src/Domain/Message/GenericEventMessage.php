@@ -10,7 +10,7 @@ use Ramsey\Uuid\UuidInterface;
 
 class GenericEventMessage extends GenericMessage implements EventMessageInterface
 {
-    private DateTimeImmutable $timestamp;
+    private readonly DateTimeImmutable $timestamp;
 
     private static ClockInterface|null $clock = null;
 

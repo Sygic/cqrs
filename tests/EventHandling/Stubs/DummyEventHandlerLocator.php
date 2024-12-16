@@ -15,9 +15,9 @@ class DummyEventHandlerLocator implements EventHandlerLocatorInterface
     {
         return [
             match ($eventType) {
-                SynchronousEvent::class => [$this->handler, 'onSynchronous'],
-                FailureCausingEvent::class => [$this->handler, 'onFailureCausing'],
-                EventExecutionFailed::class => [$this->handler, 'onEventExecutionFailed'],
+                SynchronousEvent::class => $this->handler->onSynchronous(...),
+                FailureCausingEvent::class => $this->handler->onFailureCausing(...),
+                EventExecutionFailed::class => $this->handler->onEventExecutionFailed(...),
             }
         ];
     }

@@ -74,7 +74,6 @@ class Metadata implements IteratorAggregate, ArrayAccess, Countable, JsonSeriali
 
     /**
      * @param string $offset
-     * @param mixed $value
      * @throws RuntimeException
      */
     public function offsetSet(mixed $offset, mixed $value): void

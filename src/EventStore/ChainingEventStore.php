@@ -9,16 +9,11 @@ use CQRS\Domain\Message\EventMessageInterface;
 class ChainingEventStore implements EventStoreInterface
 {
     /**
-     * @var EventStoreInterface[]
-     */
-    private array $eventStores;
-
-    /**
      * @param EventStoreInterface[] $eventStores
      */
-    public function __construct(array $eventStores)
-    {
-        $this->eventStores = $eventStores;
+    public function __construct(
+        private readonly array $eventStores
+    ) {
     }
 
     public function store(EventMessageInterface $event): void

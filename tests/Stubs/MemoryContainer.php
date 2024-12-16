@@ -8,11 +8,8 @@ use Psr\Container\ContainerInterface;
 
 final class MemoryContainer implements ContainerInterface
 {
-    private array $services;
-
-    public function __construct(array $services)
+    public function __construct(private array $services)
     {
-        $this->services = $services;
     }
 
     public function get(string $id): mixed

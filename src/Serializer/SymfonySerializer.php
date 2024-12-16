@@ -7,19 +7,13 @@ namespace CQRS\Serializer;
 use CQRS\Exception;
 use Symfony\Component\Serializer\SerializerInterface as SymfonySerializerInterface;
 
-final class SymfonySerializer implements SerializerInterface
+final readonly class SymfonySerializer implements SerializerInterface
 {
-    private SymfonySerializerInterface $serializer;
-
-    private string $format;
-
-    private array $context;
-
-    public function __construct(SymfonySerializerInterface $serializer, string $format, array $context = [])
-    {
-        $this->serializer = $serializer;
-        $this->format = $format;
-        $this->context = $context;
+    public function __construct(
+        private SymfonySerializerInterface $serializer,
+        private string $format,
+        private array $context = []
+    ) {
     }
 
 

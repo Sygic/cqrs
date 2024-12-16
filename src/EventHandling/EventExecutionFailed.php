@@ -10,14 +10,8 @@ use JsonSerializable;
 
 class EventExecutionFailed implements JsonSerializable
 {
-    protected EventMessageInterface $event;
-
-    protected Exception $exception;
-
-    public function __construct(EventMessageInterface $event, Exception $exception)
+    public function __construct(protected EventMessageInterface $event, protected Exception $exception)
     {
-        $this->event = $event;
-        $this->exception = $exception;
     }
 
     public function getEvent(): EventMessageInterface

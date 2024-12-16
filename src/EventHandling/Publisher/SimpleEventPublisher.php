@@ -11,24 +11,14 @@ use CQRS\EventStore\EventStoreInterface;
 
 class SimpleEventPublisher implements EventPublisherInterface
 {
-    private EventBusInterface $eventBus;
-
-    private ?EventQueueInterface $queue;
-
-    private ?EventStoreInterface $eventStore;
-
     private ?Metadata $additionalMetadata = null;
 
     public function __construct(
-        EventBusInterface $eventBus,
-        EventQueueInterface $queue = null,
-        EventStoreInterface $eventStore = null,
+        private readonly EventBusInterface $eventBus,
+        private readonly ?EventQueueInterface $queue = null,
+        private readonly ?EventStoreInterface $eventStore = null,
         Metadata|array $additionalMetadata = null
     ) {
-        $this->eventBus   = $eventBus;
-        $this->queue      = $queue;
-        $this->eventStore = $eventStore;
-
         if ($additionalMetadata !== null) {
             $this->additionalMetadata = Metadata::from($additionalMetadata);
         }

@@ -8,15 +8,13 @@ use Psr\Container\ContainerInterface;
 
 class PsrContainerEventHandlerLocator implements EventHandlerLocatorInterface
 {
-    protected ContainerInterface $container;
-
     protected array $handlers = [];
 
     /**
      * @param array<class-string, array<string|array{handler: string, priority?: int}>> $handlers
      * @throws Exception\InvalidArgumentException
      */
-    public function __construct(ContainerInterface $container, array $handlers = [])
+    public function __construct(protected ContainerInterface $container, array $handlers = [])
     {
         foreach ($handlers as $eventType => $eventHandlers) {
             if (!is_array($eventHandlers)) {
@@ -41,12 +39,9 @@ class PsrContainerEventHandlerLocator implements EventHandlerLocatorInterface
                 $this->add($eventType, $handler, $priority);
             }
         }
-
-        $this->container = $container;
     }
 
     /**
-     * @param mixed $handler
      * @throws Exception\InvalidArgumentException
      */
     public function add(string $eventType, mixed $handler, int $priority = 1): void
@@ -64,7 +59,6 @@ class PsrContainerEventHandlerLocator implements EventHandlerLocatorInterface
     }
 
     /**
-     * @param mixed $handler
      * @throws Exception\InvalidArgumentException
      */
     public function remove(mixed $handler, string $eventType = null): void

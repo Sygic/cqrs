@@ -8,17 +8,11 @@ use Psr\Container\ContainerInterface;
 
 class PsrContainerCommandHandlerLocator implements CommandHandlerLocatorInterface
 {
-    protected ContainerInterface $container;
-
-    protected array $handlers;
-
     /**
      * @param array<class-string, string> $handlers
      */
-    public function __construct(ContainerInterface $container, array $handlers)
+    public function __construct(protected ContainerInterface $container, protected array $handlers)
     {
-        $this->container = $container;
-        $this->handlers = $handlers;
     }
 
     /**

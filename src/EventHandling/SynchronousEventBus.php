@@ -10,11 +10,9 @@ use CQRS\Domain\Message\GenericEventMessage;
 
 class SynchronousEventBus implements EventBusInterface
 {
-    private EventHandlerLocatorInterface $locator;
-
-    public function __construct(EventHandlerLocatorInterface $locator)
-    {
-        $this->locator = $locator;
+    public function __construct(
+        private readonly EventHandlerLocatorInterface $locator
+    ) {
     }
 
     /**

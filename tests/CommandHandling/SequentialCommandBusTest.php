@@ -23,10 +23,10 @@ class SequentialCommandBusTest extends TestCase
 
         $locator = new Stubs\DummyCommandHandlerLocator();
         $locator->handlers = [
-            Stubs\DoSimpleCommand::class => [$this->handler, 'doSimple'],
-            Stubs\DoSequentialCommand::class => [$this->handler, 'doSequential'],
-            Stubs\DoFailureCommand::class => [$this->handler, 'doFailure'],
-            Stubs\DoSequentialFailureCommand::class => [$this->handler, 'doSequentialFailure'],
+            Stubs\DoSimpleCommand::class => $this->handler->doSimple(...),
+            Stubs\DoSequentialCommand::class => $this->handler->doSequential(...),
+            Stubs\DoFailureCommand::class => $this->handler->doFailure(...),
+            Stubs\DoSequentialFailureCommand::class => $this->handler->doSequentialFailure(...),
         ];
 
         $this->transactionManager = new Stubs\DummyTransactionManager();
