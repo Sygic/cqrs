@@ -12,10 +12,8 @@ use CQRS\Serializer\SerializerInterface;
 use DateTimeImmutable;
 use Ramsey\Uuid\Uuid;
 
-class RedisEventRecord
+class RedisEventRecord implements \Stringable
 {
-    private string $data;
-
     public static function fromMessage(EventMessageInterface $event, SerializerInterface $serializer): self
     {
         $metadata = $event->getMetadata()->toArray();
@@ -23,7 +21,7 @@ class RedisEventRecord
 
         foreach ($metadata as $key => $value) {
             if (is_object($value)) {
-                $metadataTypes[$key] = get_class($value);
+                $metadataTypes[$key] = $value::class;
                 $metadata[$key] = $serializer->serialize($value);
             }
         }
@@ -52,11 +50,12 @@ class RedisEventRecord
         return new self(json_encode($data, JSON_THROW_ON_ERROR));
     }
 
-    public function __construct(string $data)
-    {
-        $this->data = $data;
+    public function __construct(
+        private readonly string $data
+    ) {
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->data;

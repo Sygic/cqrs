@@ -8,16 +8,15 @@ use CQRS\Domain\Message\DomainEventMessageInterface;
 
 class DomainEventQueue implements EventQueueInterface
 {
-    private IdentityMapInterface $identityMap;
-
-    public function __construct(IdentityMapInterface $identityMap)
-    {
-        $this->identityMap = $identityMap;
+    public function __construct(
+        private readonly IdentityMapInterface $identityMap
+    ) {
     }
 
     /**
      * @return DomainEventMessageInterface[]
      */
+    #[\Override]
     public function dequeueAllEvents(): array
     {
         $dequeueEvents = [];

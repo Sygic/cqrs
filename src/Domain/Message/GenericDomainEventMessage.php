@@ -9,28 +9,19 @@ use Ramsey\Uuid\UuidInterface;
 
 class GenericDomainEventMessage extends GenericEventMessage implements DomainEventMessageInterface
 {
-    private string $aggregateType;
-
-    private mixed $aggregateId;
-
-    private int $sequenceNumber;
-
     public function __construct(
-        string $aggregateType,
-        mixed $aggregateId,
-        int $sequenceNumber,
+        private readonly string $aggregateType,
+        private readonly mixed $aggregateId,
+        private readonly int $sequenceNumber,
         object $payload,
         Metadata|array $metadata = [],
-        UuidInterface $id = null,
-        DateTimeImmutable $timestamp = null
+        ?UuidInterface $id = null,
+        ?DateTimeImmutable $timestamp = null
     ) {
-        $this->aggregateType = $aggregateType;
-        $this->aggregateId = $aggregateId;
-        $this->sequenceNumber = $sequenceNumber;
-
         parent::__construct($payload, $metadata, $id, $timestamp);
     }
 
+    #[\Override]
     public function jsonSerialize(): array
     {
         $data = parent::jsonSerialize();
@@ -40,16 +31,19 @@ class GenericDomainEventMessage extends GenericEventMessage implements DomainEve
         return $data;
     }
 
+    #[\Override]
     public function getAggregateType(): string
     {
         return $this->aggregateType;
     }
 
+    #[\Override]
     public function getAggregateId(): mixed
     {
         return $this->aggregateId;
     }
 
+    #[\Override]
     public function getSequenceNumber(): int
     {
         return $this->sequenceNumber;

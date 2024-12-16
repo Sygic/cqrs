@@ -14,16 +14,19 @@ class DummyTransactionManager implements TransactionManagerInterface
 
     public int $rollback = 0;
 
+    #[\Override]
     public function begin(): void
     {
         $this->begin++;
     }
 
+    #[\Override]
     public function commit(): void
     {
         $this->commit++;
     }
 
+    #[\Override]
     public function rollback(): void
     {
         $this->rollback++;

@@ -40,6 +40,7 @@ class Metadata implements IteratorAggregate, ArrayAccess, Countable, JsonSeriali
         $this->data = $data;
     }
 
+    #[\Override]
     public function jsonSerialize(): object
     {
         return (object) $this->data;
@@ -50,6 +51,7 @@ class Metadata implements IteratorAggregate, ArrayAccess, Countable, JsonSeriali
         return $this->data;
     }
 
+    #[\Override]
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->data);
@@ -58,6 +60,7 @@ class Metadata implements IteratorAggregate, ArrayAccess, Countable, JsonSeriali
     /**
      * @param string $offset
      */
+    #[\Override]
     public function offsetExists(mixed $offset): bool
     {
         return isset($this->data[$offset]);
@@ -67,6 +70,7 @@ class Metadata implements IteratorAggregate, ArrayAccess, Countable, JsonSeriali
      * @param string $offset
      * @return mixed
      */
+    #[\Override]
     public function offsetGet(mixed $offset): mixed
     {
         return $this->data[$offset] ?? null;
@@ -74,9 +78,9 @@ class Metadata implements IteratorAggregate, ArrayAccess, Countable, JsonSeriali
 
     /**
      * @param string $offset
-     * @param mixed $value
      * @throws RuntimeException
      */
+    #[\Override]
     public function offsetSet(mixed $offset, mixed $value): void
     {
         throw new RuntimeException('Event metadata is immutable.');
@@ -86,11 +90,13 @@ class Metadata implements IteratorAggregate, ArrayAccess, Countable, JsonSeriali
      * @param string $offset
      * @throws RuntimeException
      */
+    #[\Override]
     public function offsetUnset(mixed $offset): void
     {
         throw new RuntimeException('Event metadata is immutable.');
     }
 
+    #[\Override]
     public function count(): int
     {
         return count($this->data);

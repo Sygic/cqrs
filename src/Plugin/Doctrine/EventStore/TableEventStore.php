@@ -13,22 +13,19 @@ use Stringable;
 
 class TableEventStore implements EventStoreInterface
 {
-    private SerializerInterface $serializer;
-
-    private Connection $connection;
-
     private string $table = 'cqrs_event';
 
-    public function __construct(SerializerInterface $serializer, Connection $connection, string $table = null)
-    {
-        $this->serializer = $serializer;
-        $this->connection = $connection;
-
+    public function __construct(
+        private readonly SerializerInterface $serializer,
+        private readonly Connection $connection,
+        ?string $table = null
+    ) {
         if (null !== $table) {
             $this->table = $table;
         }
     }
 
+    #[\Override]
     public function store(EventMessageInterface $event): void
     {
         $data = $this->toArray($event);

@@ -10,26 +10,15 @@ use Redis;
 
 class RedisEventStore implements EventStoreInterface
 {
-    private SerializerInterface $serializer;
-
-    private Redis $redis;
-
-    private string $key;
-
-    private int $size;
-
     public function __construct(
-        SerializerInterface $serializer,
-        Redis $redis,
-        string $key = 'cqrs_event',
-        int $size = 0
+        private readonly SerializerInterface $serializer,
+        private readonly Redis $redis,
+        private readonly string $key = 'cqrs_event',
+        private readonly int $size = 0
     ) {
-        $this->serializer = $serializer;
-        $this->redis = $redis;
-        $this->key = $key;
-        $this->size = $size;
     }
 
+    #[\Override]
     public function store(EventMessageInterface $event): void
     {
         $record = RedisEventRecord::fromMessage($event, $this->serializer);

@@ -9,6 +9,7 @@ use CQRS\Domain\Message\GenericDomainEventMessage;
 use CQRS\Domain\Message\GenericEventMessage;
 use CQRS\EventStore\RedisEventStore;
 use DateTimeImmutable;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 use Redis;
@@ -19,6 +20,7 @@ class RedisEventStoreTest extends TestCase
 
     private RedisEventStore $redisEventStore;
 
+    #[\Override]
     public function setUp(): void
     {
         if (!extension_loaded('redis')) {
@@ -31,9 +33,7 @@ class RedisEventStoreTest extends TestCase
         $this->redisEventStore = new RedisEventStore(new SomeSerializer(), $this->redis, size: 4);
     }
 
-    /**
-     * @dataProvider getData
-     */
+    #[DataProvider('getData')]
     public function testStoreEvent(EventMessageInterface $event, string $record): void
     {
         $this->redisEventStore->store($event);
@@ -71,7 +71,7 @@ class RedisEventStoreTest extends TestCase
         self::assertFalse((bool) $this->redis->exists('cqrs_event'));
     }
 
-    public function getData(): array
+    public static function getData(): array
     {
         $aggregateId = 123;
 

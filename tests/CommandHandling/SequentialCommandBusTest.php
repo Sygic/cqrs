@@ -17,16 +17,17 @@ class SequentialCommandBusTest extends TestCase
 
     private Stubs\DummyEventPublisher $eventPublisher;
 
+    #[\Override]
     public function setUp(): void
     {
         $this->handler = new Stubs\DummyCommandHandler();
 
         $locator = new Stubs\DummyCommandHandlerLocator();
         $locator->handlers = [
-            Stubs\DoSimpleCommand::class => [$this->handler, 'doSimple'],
-            Stubs\DoSequentialCommand::class => [$this->handler, 'doSequential'],
-            Stubs\DoFailureCommand::class => [$this->handler, 'doFailure'],
-            Stubs\DoSequentialFailureCommand::class => [$this->handler, 'doSequentialFailure'],
+            Stubs\DoSimpleCommand::class => $this->handler->doSimple(...),
+            Stubs\DoSequentialCommand::class => $this->handler->doSequential(...),
+            Stubs\DoFailureCommand::class => $this->handler->doFailure(...),
+            Stubs\DoSequentialFailureCommand::class => $this->handler->doSequentialFailure(...),
         ];
 
         $this->transactionManager = new Stubs\DummyTransactionManager();

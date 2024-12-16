@@ -8,23 +8,18 @@ use Psr\Container\ContainerInterface;
 
 class PsrContainerCommandHandlerLocator implements CommandHandlerLocatorInterface
 {
-    protected ContainerInterface $container;
-
-    protected array $handlers;
-
     /**
      * @param array<class-string, string> $handlers
      */
-    public function __construct(ContainerInterface $container, array $handlers)
+    public function __construct(protected ContainerInterface $container, protected array $handlers)
     {
-        $this->container = $container;
-        $this->handlers = $handlers;
     }
 
     /**
      * @return callable
      * @throws Exception\CommandHandlerNotFoundException
      */
+    #[\Override]
     public function get(string $commandType): callable
     {
         if (!array_key_exists($commandType, $this->handlers)) {

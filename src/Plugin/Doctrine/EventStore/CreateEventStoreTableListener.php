@@ -12,13 +12,12 @@ use Doctrine\ORM\Tools\ToolEvents;
 
 class CreateEventStoreTableListener implements EventSubscriber
 {
-    private string $name;
-
-    public function __construct(string $name = 'cqrs_event')
-    {
-        $this->name = $name;
+    public function __construct(
+        private readonly string $name = 'cqrs_event'
+    ) {
     }
 
+    #[\Override]
     public function getSubscribedEvents(): array
     {
         return [

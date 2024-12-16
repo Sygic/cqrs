@@ -8,11 +8,13 @@ use Psr\Container\ContainerInterface;
 
 final class DummyCallableContainer implements ContainerInterface
 {
+    #[\Override]
     public function get(string $id): callable
     {
         return fn () => $id;
     }
 
+    #[\Override]
     public function has(string $id): bool
     {
         return true;

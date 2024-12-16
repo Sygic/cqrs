@@ -8,16 +8,13 @@ use CQRS\Domain\Message\EventMessageInterface;
 
 class FilteringEventStore implements EventStoreInterface
 {
-    private EventStoreInterface $eventStore;
-
-    private EventFilterInterface $filter;
-
-    public function __construct(EventStoreInterface $eventStore, EventFilterInterface $filter)
-    {
-        $this->eventStore = $eventStore;
-        $this->filter = $filter;
+    public function __construct(
+        private readonly EventStoreInterface $eventStore,
+        private readonly EventFilterInterface $filter
+    ) {
     }
 
+    #[\Override]
     public function store(EventMessageInterface $event): void
     {
         if ($this->filter->isValid($event)) {

@@ -11,13 +11,14 @@ class DummyEventHandlerLocator implements EventHandlerLocatorInterface
 {
     public DummyEventHandler $handler;
 
+    #[\Override]
     public function get(string $eventType): array
     {
         return [
             match ($eventType) {
-                SynchronousEvent::class => [$this->handler, 'onSynchronous'],
-                FailureCausingEvent::class => [$this->handler, 'onFailureCausing'],
-                EventExecutionFailed::class => [$this->handler, 'onEventExecutionFailed'],
+                SynchronousEvent::class => $this->handler->onSynchronous(...),
+                FailureCausingEvent::class => $this->handler->onFailureCausing(...),
+                EventExecutionFailed::class => $this->handler->onEventExecutionFailed(...),
             }
         ];
     }

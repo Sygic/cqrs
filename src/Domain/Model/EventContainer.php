@@ -22,10 +22,6 @@ class EventContainer implements Countable
      */
     private array $events = [];
 
-    private string $aggregateType;
-
-    private mixed $aggregateId;
-
     private ?int $lastSequenceNumber = null;
 
     private ?int $lastCommittedSequenceNumber = null;
@@ -33,13 +29,11 @@ class EventContainer implements Countable
     /**
      * Initialize an EventContainer for an aggregate with the given aggregateIdentifier. This identifier will be
      * attached to all incoming events.
-     *
-     * @param mixed $aggregateId
      */
-    public function __construct(string $aggregateType, mixed $aggregateId)
-    {
-        $this->aggregateType = $aggregateType;
-        $this->aggregateId   = $aggregateId;
+    public function __construct(
+        private readonly string $aggregateType,
+        private readonly mixed $aggregateId
+    ) {
     }
 
     /**
@@ -111,6 +105,7 @@ class EventContainer implements Countable
     /**
      * Returns the number of events currently inside this container.
      */
+    #[\Override]
     public function count(): int
     {
         return count($this->events);

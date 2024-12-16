@@ -24,24 +24,15 @@ use Exception;
  */
 class SequentialCommandBus implements CommandBusInterface
 {
-    private CommandHandlerLocatorInterface $locator;
-
-    private TransactionManagerInterface $transactionManager;
-
-    private EventPublisherInterface $eventPublisher;
-
     private array $commandStack = [];
 
     private bool $executing = false;
 
     public function __construct(
-        CommandHandlerLocatorInterface $locator,
-        TransactionManagerInterface $transactionManager,
-        EventPublisherInterface $eventPublisher
+        private readonly CommandHandlerLocatorInterface $locator,
+        private readonly TransactionManagerInterface $transactionManager,
+        private readonly EventPublisherInterface $eventPublisher
     ) {
-        $this->locator = $locator;
-        $this->transactionManager = $transactionManager;
-        $this->eventPublisher = $eventPublisher;
     }
 
     /**
@@ -52,6 +43,7 @@ class SequentialCommandBus implements CommandBusInterface
      *
      * @throws Exception
      */
+    #[\Override]
     public function dispatch(object $command): void
     {
         $this->commandStack[] = $command;
@@ -84,7 +76,7 @@ class SequentialCommandBus implements CommandBusInterface
         try {
             $this->executing = true;
 
-            $commandType = get_class($command);
+            $commandType = $command::class;
             $handler = $this->locator->get($commandType);
             $handler($command);
         } catch (Exception $e) {

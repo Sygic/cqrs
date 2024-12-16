@@ -80,7 +80,7 @@ trait AggregateRootTrait
     {
         if ($this->eventContainer === null) {
             $aggregateId = $this->getId();
-            $aggregateType = get_class($this);
+            $aggregateType = $this::class;
 
             if ($aggregateId === null) {
                 throw new RuntimeException(sprintf(

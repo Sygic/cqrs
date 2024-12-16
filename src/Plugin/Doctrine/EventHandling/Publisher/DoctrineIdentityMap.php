@@ -15,6 +15,7 @@ use Doctrine\ORM\Events;
 
 class DoctrineIdentityMap extends SimpleIdentityMap implements EventSubscriber
 {
+    #[\Override]
     public function getSubscribedEvents(): array
     {
         return [

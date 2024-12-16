@@ -16,6 +16,7 @@ class DoctrineEventPublisher extends SimpleEventPublisher implements EventSubscr
      */
     private array $events = [];
 
+    #[\Override]
     public function getSubscribedEvents(): array
     {
         return [
@@ -24,6 +25,7 @@ class DoctrineEventPublisher extends SimpleEventPublisher implements EventSubscr
         ];
     }
 
+    #[\Override]
     public function publishEvents(): void
     {
         $this->events = array_merge($this->events, $this->dequeueEvents());

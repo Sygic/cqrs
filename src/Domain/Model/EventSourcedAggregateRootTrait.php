@@ -28,7 +28,7 @@ trait EventSourcedAggregateRootTrait
             }
 
             $message = new GenericDomainEventMessage(
-                get_class($this),
+                $this::class,
                 null,
                 0,
                 $payload,
@@ -54,7 +54,7 @@ trait EventSourcedAggregateRootTrait
         if (!method_exists($this, $methodName)) {
             throw new BadMethodCallException(sprintf(
                 'Aggregate root %s has no method to apply event %s',
-                get_class($this),
+                $this::class,
                 $eventName
             ));
         }

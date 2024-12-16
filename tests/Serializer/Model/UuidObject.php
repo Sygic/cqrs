@@ -9,8 +9,6 @@ use Ramsey\Uuid\UuidInterface;
 
 class UuidObject
 {
-    private UuidInterface $uuid;
-
     public static function generate(): self
     {
         return new self(Uuid::uuid4());
@@ -21,9 +19,9 @@ class UuidObject
         return new self($uuid);
     }
 
-    public function __construct(UuidInterface $uuid)
-    {
-        $this->uuid = $uuid;
+    public function __construct(
+        private readonly UuidInterface $uuid
+    ) {
     }
 
     public function getUuid(): UuidInterface
