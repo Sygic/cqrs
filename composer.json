@@ -2,7 +2,7 @@
     "name": "pauci/cqrs",
     "type": "library",
     "description": "CQRS library",
-    "version": "0.8.0",
+    "version": "0.8.1",
     "license": "MIT",
     "keywords": [
         "pauci",
