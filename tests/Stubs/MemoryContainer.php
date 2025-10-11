@@ -12,6 +12,9 @@ final class MemoryContainer implements ContainerInterface
     {
     }
 
+    /**
+     * @throws void
+     */
     #[\Override]
     public function get(string $id): mixed
     {

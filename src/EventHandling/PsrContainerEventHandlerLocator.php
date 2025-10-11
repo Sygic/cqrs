@@ -8,6 +8,9 @@ use Psr\Container\ContainerInterface;
 
 class PsrContainerEventHandlerLocator implements EventHandlerLocatorInterface
 {
+    /**
+     * @var array<class-string, array<string, list<string>>>
+     */
     protected array $handlers = [];
 
     /**
@@ -17,26 +20,24 @@ class PsrContainerEventHandlerLocator implements EventHandlerLocatorInterface
     public function __construct(protected ContainerInterface $container, array $handlers = [])
     {
         foreach ($handlers as $eventType => $eventHandlers) {
-            if (!is_array($eventHandlers)) {
-                throw new Exception\InvalidArgumentException(sprintf(
-                    'Handlers for event %s must be specified as array; got %s',
-                    $eventType,
-                    get_debug_type($eventHandlers)
-                ));
-            }
-
             foreach ($eventHandlers as $handler) {
                 $priority = 1;
+                $handlerId = $handler;
 
-                if (is_array($handler) && array_key_exists('handler', $handler)) {
-                    if (array_key_exists('priority', $handler)) {
-                        $priority = $handler['priority'];
-                    }
-
-                    $handler = $handler['handler'];
+                if (is_array($handler)) {
+                    $priority = isset($handler['priority']) ? (int) $handler['priority'] : 1;
+                    $handlerId = $handler['handler'];
                 }
 
-                $this->add($eventType, $handler, $priority);
+                if (!is_string($handlerId)) {
+                    throw new Exception\InvalidArgumentException(sprintf(
+                        'Handler id for event %s must be string; got %s',
+                        $eventType,
+                        get_debug_type($handlerId)
+                    ));
+                }
+
+                $this->add($eventType, $handlerId, $priority);
             }
         }
     }
@@ -44,29 +45,34 @@ class PsrContainerEventHandlerLocator implements EventHandlerLocatorInterface
     /**
      * @throws Exception\InvalidArgumentException
      */
-    public function add(string $eventType, mixed $handler, int $priority = 1): void
+    public function add(string $eventType, string $handler, int $priority = 1): void
     {
-        if (
-            array_key_exists($eventType, $this->handlers)
-            && array_key_exists($priority, $this->handlers[$eventType])
-            && in_array($handler, $this->handlers[$eventType], true)
-        ) {
+        if (!isset($this->handlers[$eventType])) {
+            $this->handlers[$eventType] = [];
+        }
+
+        $priorityKey = $priority . '.0';
+
+        if (!isset($this->handlers[$eventType][$priorityKey])) {
+            $this->handlers[$eventType][$priorityKey] = [];
+        }
+
+        if (in_array($handler, $this->handlers[$eventType][$priorityKey], true)) {
             return;
         }
 
-        // Make sure the priority index is string so we can use array_merge_recursive
-        $this->handlers[$eventType][$priority . '.0'][] = $handler;
+        $this->handlers[$eventType][$priorityKey][] = $handler;
     }
 
     /**
      * @throws Exception\InvalidArgumentException
      */
-    public function remove(mixed $handler, ?string $eventType = null): void
+    public function remove(string $handler, ?string $eventType = null): void
     {
         // If event type is not specified, we need to iterate through each event type
-        if (null === $eventType) {
-            foreach ($this->handlers as $eventType => $unused) {
-                $this->remove($handler, $eventType);
+        if ($eventType === null) {
+            foreach ($this->handlers as $type => $_) {
+                $this->remove($handler, $type);
             }
 
             return;
@@ -89,8 +95,6 @@ class PsrContainerEventHandlerLocator implements EventHandlerLocatorInterface
             // If the queue for the given priority is empty, remove it.
             if (empty($this->handlers[$eventType][$priority])) {
                 unset($this->handlers[$eventType][$priority]);
-
-                break;
             }
         }
 

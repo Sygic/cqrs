@@ -38,6 +38,7 @@ class EventContainer implements Countable
 
     /**
      * Add an event to this container.
+     * @param array<string, mixed>|Metadata $metadata
      */
     public function addEvent(object $payload, Metadata|array $metadata = []): GenericDomainEventMessage
     {

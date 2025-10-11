@@ -25,13 +25,6 @@ class SynchronousEventBus implements EventBusInterface
         $eventHandlers = $this->locator->get($eventType);
 
         foreach ($eventHandlers as $handler) {
-            if (!is_callable($handler)) {
-                throw new Exception\RuntimeException(sprintf(
-                    'Event handler %s is not invokable',
-                    get_debug_type($handler)
-                ));
-            }
-
             $this->invokeEventHandler($handler, $event);
         }
     }

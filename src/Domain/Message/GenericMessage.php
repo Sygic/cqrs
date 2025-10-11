@@ -20,6 +20,9 @@ class GenericMessage implements MessageInterface
 
     private Metadata $metadata;
 
+    /**
+     * @param Metadata|array<string, mixed> $metadata
+     */
     public function __construct(object $payload, Metadata|array $metadata = [], ?UuidInterface $id = null)
     {
         $this->id = $id ?? Uuid::uuid4();
@@ -28,6 +31,9 @@ class GenericMessage implements MessageInterface
         $this->metadata = Metadata::from($metadata);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     #[\Override]
     public function jsonSerialize(): array
     {

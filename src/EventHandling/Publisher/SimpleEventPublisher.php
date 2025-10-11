@@ -13,6 +13,9 @@ class SimpleEventPublisher implements EventPublisherInterface
 {
     private ?Metadata $additionalMetadata = null;
 
+    /**
+     * @param Metadata|array<string, mixed>|null $additionalMetadata
+     */
     public function __construct(
         private readonly EventBusInterface $eventBus,
         private readonly ?EventQueueInterface $queue = null,
@@ -29,6 +32,9 @@ class SimpleEventPublisher implements EventPublisherInterface
         return $this->eventBus;
     }
 
+    /**
+     * @param Metadata|array<string, mixed> $additionalMetadata
+     */
     public function setAdditionalMetadata(Metadata|array $additionalMetadata): void
     {
         $this->additionalMetadata = Metadata::from($additionalMetadata);

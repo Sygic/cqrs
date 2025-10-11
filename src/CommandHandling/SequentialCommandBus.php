@@ -24,6 +24,9 @@ use Exception;
  */
 class SequentialCommandBus implements CommandBusInterface
 {
+    /**
+     * @var array<object>
+     */
     private array $commandStack = [];
 
     private bool $executing = false;

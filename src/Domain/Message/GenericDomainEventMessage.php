@@ -9,6 +9,9 @@ use Ramsey\Uuid\UuidInterface;
 
 class GenericDomainEventMessage extends GenericEventMessage implements DomainEventMessageInterface
 {
+    /**
+     * @param array<string, mixed>|Metadata $metadata
+     */
     public function __construct(
         private readonly string $aggregateType,
         private readonly mixed $aggregateId,
@@ -21,6 +24,9 @@ class GenericDomainEventMessage extends GenericEventMessage implements DomainEve
         parent::__construct($payload, $metadata, $id, $timestamp);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     #[\Override]
     public function jsonSerialize(): array
     {

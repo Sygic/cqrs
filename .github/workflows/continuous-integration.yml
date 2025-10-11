@@ -6,77 +6,38 @@ on:
     branches:
       - master
 
+env:
+  default_php: 8.4
+
 jobs:
   coding-standards:
     name: Coding Standards
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+      - uses: actions/checkout@v4.2.2
+      - uses: shivammathur/setup-php@2.34.1
         with:
-          php-version: 8.4
+          php-version: ${{ env.default_php }}
           coverage: none
-          extensions: redis
-
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: ${{ runner.os }}-composer-
-
-      - name: Install dependencies
-        run: composer install --no-interaction --no-progress --prefer-dist
-
-      - name: Run the linter
-        run: composer lint
-
-      - name: Check coding standards
-        run: composer cs-check
+      - uses: ramsey/composer-install@v3
+      - run: composer lint
+      - run: composer cs-check
 
   static-analysis:
     name: Static Analysis
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+      - uses: actions/checkout@v4.2.2
+      - uses: shivammathur/setup-php@2.34.1
         with:
           coverage: none
-          php-version: 8.4
-          extensions: redis
-
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: ${{ runner.os }}-composer-
-
-      - name: Install dependencies
-        run: composer update --no-interaction --no-progress --prefer-dist
-
-      - name: Run static analysis
-        run: php vendor/bin/phpstan analyse
+          php-version: ${{ env.default_php }}
+      - uses: ramsey/composer-install@v3
+      - run: php vendor/bin/phpstan analyse
 
   unit-tests:
     name: Unit Tests
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         php-versions: ['8.3', '8.4']
@@ -90,32 +51,23 @@ jobs:
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+      - uses: actions/checkout@v4.2.2
+      - uses: shivammathur/setup-php@2.34.1
         with:
           php-version: "${{ matrix.php-versions }}"
           coverage: xdebug
-          extensions: redis
+      - uses: ramsey/composer-install@v3
+      - run: ./vendor/bin/phpunit
+      - uses: codecov/codecov-action@v1
 
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Cache dependencies
-        uses: actions/cache@v2
+  rector:
+    runs-on: ubuntu-latest
+    name: Run Rector on PHP
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: shivammathur/setup-php@2.34.1
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: ${{ runner.os }}-composer-
-
-      - name: Install dependencies
-        run: composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader
-
-      - name: Run unit tests
-        run: ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml --coverage-text
-
-      - name: Publish coverage report to Codecov
-        uses: codecov/codecov-action@v1
+          php-version: ${{ env.default_php }}
+          tools: composer
+      - uses: ramsey/composer-install@v3
+      - run: composer rector
