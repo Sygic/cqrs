@@ -9,6 +9,9 @@ use Symfony\Component\Serializer\SerializerInterface as SymfonySerializerInterfa
 
 final readonly class SymfonySerializer implements SerializerInterface
 {
+    /**
+     * @param array<string, mixed> $context
+     */
     public function __construct(
         private SymfonySerializerInterface $serializer,
         private string $format,

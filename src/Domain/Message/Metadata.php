@@ -12,10 +12,18 @@ use IteratorAggregate;
 use JsonSerializable;
 use Traversable;
 
+/**
+ * @implements IteratorAggregate<string, mixed>
+ * @implements ArrayAccess<string, mixed>
+ */
 class Metadata implements IteratorAggregate, ArrayAccess, Countable, JsonSerializable
 {
+    /** @var array<string, mixed> */
     private array $data;
 
+    /**
+     * @param self|array<string, mixed> $metadata
+     */
     public static function from(self|array $metadata = []): static
     {
         if ($metadata instanceof static) {
@@ -29,11 +37,17 @@ class Metadata implements IteratorAggregate, ArrayAccess, Countable, JsonSeriali
         return new static($metadata);
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public static function jsonDeserialize(array $data): static
     {
         return new static($data);
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     final private function __construct(array $data)
     {
         ksort($data);
@@ -46,11 +60,17 @@ class Metadata implements IteratorAggregate, ArrayAccess, Countable, JsonSeriali
         return (object) $this->data;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toArray(): array
     {
         return $this->data;
     }
 
+    /**
+     * @return Traversable<string, mixed>
+     */
     #[\Override]
     public function getIterator(): Traversable
     {

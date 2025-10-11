@@ -32,6 +32,9 @@ class TableEventStore implements EventStoreInterface
         $this->connection->insert($this->table, $data);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function toArray(EventMessageInterface $event): array
     {
         $dateTimeFormat = $this->connection->getDatabasePlatform()->getDateTimeFormatString();

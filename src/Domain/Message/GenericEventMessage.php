@@ -19,6 +19,9 @@ class GenericEventMessage extends GenericMessage implements EventMessageInterfac
         self::$clock = $clock;
     }
 
+    /**
+     * @param array<string, mixed>|Metadata $metadata
+     */
     public function __construct(
         object $payload,
         Metadata|array $metadata = [],
@@ -29,6 +32,9 @@ class GenericEventMessage extends GenericMessage implements EventMessageInterfac
         $this->timestamp = $timestamp ?? self::$clock?->now() ?? new DateTimeImmutable();
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     #[\Override]
     public function jsonSerialize(): array
     {

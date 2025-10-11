@@ -34,8 +34,8 @@ class RedisEventRecord implements \Stringable
                 'type' => $event->getPayloadType(),
             ],
             'metadata' => [
-                'data' => (object) $metadata,
-                'types' => (object) $metadataTypes,
+                'data' => $metadata,
+                'types' => $metadataTypes,
             ],
         ];
 
@@ -61,9 +61,28 @@ class RedisEventRecord implements \Stringable
         return $this->data;
     }
 
+    /**
+     * @return array{
+     *     id: string,
+     *     timestamp: string,
+     *     payload: array{
+     *         data: string,
+     *         type: string,
+     *     },
+     *     metadata: array{
+     *         data: array<string, mixed>,
+     *         types: array<string, string>,
+     *     },
+     *     aggregate?: array{
+     *         type: string,
+     *         id: mixed,
+     *         seq: int,
+     *     },
+     * }
+     */
     public function toArray(): array
     {
-        return (array) json_decode($this->data, true, 512, JSON_THROW_ON_ERROR);
+        return json_decode($this->data, true, 512, JSON_THROW_ON_ERROR);
     }
 
     public function toMessage(SerializerInterface $serializer): GenericEventMessage|GenericDomainEventMessage
@@ -76,6 +95,9 @@ class RedisEventRecord implements \Stringable
 
         $metadata = $data['metadata']['data'];
         foreach ($data['metadata']['types'] as $key => $type) {
+            if (!is_string($type) || !array_key_exists($key, $metadata) || !is_string($metadata[$key])) {
+                continue;
+            }
             $metadata[$key] = $serializer->deserialize($metadata[$key], $type);
         }
 

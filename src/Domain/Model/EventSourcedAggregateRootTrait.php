@@ -16,6 +16,7 @@ trait EventSourcedAggregateRootTrait
 
     /**
      * @throws DomainException
+     * @param array<string, mixed>|Metadata $metadata
      */
     protected function apply(object $payload, Metadata|array $metadata = []): void
     {

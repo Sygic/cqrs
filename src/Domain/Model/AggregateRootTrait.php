@@ -27,6 +27,7 @@ trait AggregateRootTrait
     /**
      * Registers an event to be published when the aggregate is saved, containing the given payload and optional
      * metadata.
+     * @param array<string, mixed>|Metadata $metadata
      */
     protected function registerEvent(object $payload, Metadata|array $metadata = []): DomainEventMessageInterface
     {

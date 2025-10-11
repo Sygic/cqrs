@@ -24,6 +24,9 @@ class EventExecutionFailed implements JsonSerializable
         return $this->exception;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     #[\Override]
     public function jsonSerialize(): array
     {

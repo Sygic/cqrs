@@ -1,0 +1,49 @@
+parameters:
+	ignoreErrors:
+		-
+			rawMessage: 'Argument of an invalid type mixed supplied for foreach, only iterables are supported.'
+			identifier: foreach.nonIterable
+			count: 1
+			path: src/EventHandling/PsrContainerEventHandlerLocator.php
+
+		-
+			rawMessage: 'Offset ''*'' on array<class-string, array<string, list<string>>> on left side of ?? does not exist.'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/EventHandling/PsrContainerEventHandlerLocator.php
+
+		-
+			rawMessage: 'Parameter #1 $id of method Psr\Container\ContainerInterface::get() expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: src/EventHandling/PsrContainerEventHandlerLocator.php
+
+		-
+			rawMessage: 'Parameter #2 ...$values of function sprintf expects bool|float|int|string|null, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: src/EventHandling/PsrContainerEventHandlerLocator.php
+
+		-
+			rawMessage: 'Property CQRS\EventHandling\PsrContainerEventHandlerLocator::$handlers (array<class-string, array<string, list<string>>>) does not accept array<class-string, array<string, array<int<0, max>, string>>>.'
+			identifier: assign.propertyType
+			count: 3
+			path: src/EventHandling/PsrContainerEventHandlerLocator.php
+
+		-
+			rawMessage: 'Property CQRS\EventHandling\PsrContainerEventHandlerLocator::$handlers (array<class-string, array<string, list<string>>>) does not accept non-empty-array<string, array<string, list<string>>>.'
+			identifier: assign.propertyType
+			count: 3
+			path: src/EventHandling/PsrContainerEventHandlerLocator.php
+
+		-
+			rawMessage: 'Call to function is_string() with string will always evaluate to true.'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/EventStore/RedisEventRecord.php
+
+		-
+			rawMessage: 'Method CQRS\EventStore\RedisEventRecord::toArray() should return array{id: string, timestamp: string, payload: array{data: string, type: string}, metadata: array{data: array<string, mixed>, types: array<string, string>}, aggregate?: array{type: string, id: mixed, seq: int}} but returns mixed.'
+			identifier: return.type
+			count: 1
+			path: src/EventStore/RedisEventRecord.php

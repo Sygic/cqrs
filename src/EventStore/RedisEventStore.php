@@ -33,7 +33,7 @@ class RedisEventStore implements EventStoreInterface
     {
         $data = $this->redis->brPop($this->key, $timeout);
 
-        if (!array_key_exists(1, $data)) {
+        if (!is_array($data) || !array_key_exists(1, $data) || !is_string($data[1])) {
             return null;
         }
 
