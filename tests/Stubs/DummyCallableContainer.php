@@ -8,6 +8,9 @@ use Psr\Container\ContainerInterface;
 
 final class DummyCallableContainer implements ContainerInterface
 {
+    /**
+     * @throws void
+     */
     #[\Override]
     public function get(string $id): callable
     {

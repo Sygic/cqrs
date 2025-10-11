@@ -92,8 +92,8 @@ class RedisEventStoreTest extends TestCase
                     "type": "CQRSTest\\EventStore\\SomeEvent"
                   },
                   "metadata": {
-                    "data": {},
-                    "types": {}
+                    "data": [],
+                    "types": []
                   }
                 }
                 JSON,
@@ -117,8 +117,8 @@ class RedisEventStoreTest extends TestCase
                     "type": "CQRSTest\\EventStore\\SomeEvent"
                   },
                   "metadata": {
-                    "data": {},
-                    "types": {}
+                    "data": [],
+                    "types": []
                   },
                   "aggregate": {
                     "type": "SomeAggregate",
