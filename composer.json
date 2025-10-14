@@ -1,8 +1,8 @@
 {
-    "name": "pauci/cqrs",
+    "name": "sygic/cqrs",
     "type": "library",
     "description": "CQRS library",
-    "version": "0.8.1",
+    "version": "0.8.2",
     "license": "MIT",
     "keywords": [
         "pauci",
@@ -17,7 +17,7 @@
         "sort-packages": true
     },
     "require": {
-        "php": "^8.3 || ^8.4",
+        "php": "^8.4 || ^8.5",
         "ext-json": "*",
         "psr/clock": "^1.0",
         "psr/container": "^1.0 || ^2.0",
@@ -65,7 +65,7 @@
         "rector": "rector -n -vv",
         "rector:clear": "rector -n --clear-cache -vv",
         "rector:fix": "rector -vv",
-        "stan": "phpstan analyse --no-progress",
+        "stan": "phpstan analyse --no-progress  --memory-limit=512M",
         "stan:b": "@stan -b --allow-empty-baseline",
         "test": "phpunit",
         "test-coverage": "phpunit --coverage-clover clover.xml"
