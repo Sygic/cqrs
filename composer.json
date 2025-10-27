@@ -2,7 +2,7 @@
     "name": "sygic/cqrs",
     "type": "library",
     "description": "CQRS library",
-    "version": "0.8.2",
+    "version": "0.8.5",
     "license": "MIT",
     "keywords": [
         "pauci",
